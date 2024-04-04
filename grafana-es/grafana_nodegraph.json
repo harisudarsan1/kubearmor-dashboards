@@ -1,0 +1,170 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {},
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ac986d5a-adcb-4591-8e97-5dbc7e5bf421"
+          },
+          "filters": [],
+          "format": "node-graph-nodes",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "uql",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\n| scope \"hits.hits\"\n| jsonata \"_source\"\n| extend \"id\"=tostring(\"HostPID\"), \"title\"=\"ProcessName\", \"mainstat\"=\"Resource\"\n| extend \"detail__timestamp\"=\"Timestamp\"\n| extend \"detail__updatedTime\"=\"UpdatedTime\"\n| extend \"detail__clustername\"=\"ClusterName\"\n| extend \"detail__hostname\"=\"HostName\"\n| extend \"detail__namespaceName\"=\"NamespaceName\"\n| extend \"detail__labels\"=\"Labels\"\n| extend \"detail__podName\"=\"PodName\"\n| extend \"detail__containerId\"=tostring(\"ContainerID\")\n| extend \"detail__containerName\"=\"ContainerName\" \n| extend \"detail__containerImage\"=\"ContainerImage\"\n| extend \"detail__parentProcessName\"=\"ParentProcessName\"\n| extend \"detail__processName\"=\"ProcessName\"\n| extend \"detail__hostPPID\"=tostring(\"HostPPID\")\n| extend \"detail__hostPID\"=tostring(\"HostPID\")\n| extend \"detail__PPID\"=tostring(\"PPID\")\n| extend \"detail__PID\"=tostring(\"PID\")\n| extend \"detail__UID\"=\"UID\"\n| extend \"detail__type\"=\"Type\"\n| extend \"detail__source\"=\"Source\"\n| extend \"detail__operation\"=\"Operation\"\n| extend \"detail__resource\"=\"Resource\"\n| extend \"detail__data\"=\"Data\"\n| extend \"detail__result\"=\"Result\"\n| extend \"detail__cwd\"=\"Cwd\"\n| extend \"detail__tty\"=\"TTY\"\n\n",
+          "url": "http://elasticsearch:9200/log/_search?&pretty&q=TTY:pts0&size=1000",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ac986d5a-adcb-4591-8e97-5dbc7e5bf421"
+          },
+          "filters": [],
+          "format": "node-graph-edges",
+          "global_query_id": "",
+          "hide": false,
+          "parser": "uql",
+          "refId": "B",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\n| scope \"hits.hits\"\n| jsonata \"_source\"\n| where \"PPID\" != 0\n| extend \"id\"=tostring(\"HostPID\"), \"source\"=tostring(\"HostPPID\"),\"target\"=tostring(\"HostPID\") \n| project-away \"HostPID\",\"HostPPID\"\n\n\n\n",
+          "url": "http://elasticsearch:9200/log/_search?size=5&pretty&q=TTY:pts0&_source_includes=HostPID,HostPPID,PPID&size=1000",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Panel Title",
+      "transformations": [
+        {
+          "filter": {
+            "id": "byRefId",
+            "options": "A"
+          },
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "ClusterName": true,
+              "ContainerID": true,
+              "ContainerImage": true,
+              "ContainerName": true,
+              "Cwd": true,
+              "Data": true,
+              "HostName": true,
+              "HostPID": true,
+              "HostPPID": true,
+              "Labels": true,
+              "NamespaceName": true,
+              "Operation": true,
+              "Owner": true,
+              "PID": true,
+              "PPID": true,
+              "ParentProcessName": true,
+              "PodName": true,
+              "ProcessName": true,
+              "Resource": true,
+              "Result": true,
+              "Source": true,
+              "TTY": true,
+              "Timestamp": true,
+              "Type": true,
+              "UID": true,
+              "UpdatedTime": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "detail__PID": "PID",
+              "detail__PPID": "PPID",
+              "detail__UID": "UID",
+              "detail__clustername": "ClusterName",
+              "detail__containerId": "ContainerId",
+              "detail__containerImage": "ContainerImage",
+              "detail__containerName": "ContainerName",
+              "detail__cwd": "CWD",
+              "detail__data": "Data",
+              "detail__hostPID": "HostPID",
+              "detail__hostPPID": "HostPPID",
+              "detail__hostname": "HostName",
+              "detail__labels": "Labels",
+              "detail__namespaceName": "NamespaceName",
+              "detail__operation": "Operation",
+              "detail__parentProcessName": "ParentProcessName",
+              "detail__podName": "PodName",
+              "detail__processName": "ProcessName",
+              "detail__resource": "Resource",
+              "detail__result": "Result",
+              "detail__source": "Source",
+              "detail__timestamp": "Timestamp",
+              "detail__tty": "TTY",
+              "detail__type": "Type",
+              "detail__updatedTime": "UpdatedTime"
+            }
+          },
+          "topic": "series"
+        }
+      ],
+      "type": "nodeGraph"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "New dashboard",
+  "uid": "ffbf5c83-2509-4230-9310-6f1c1e6b2166",
+  "version": 2,
+  "weekStart": ""
+}
