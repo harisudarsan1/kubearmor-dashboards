@@ -11,4 +11,5 @@ If successful, it should display "clustername: k8s logs", indicating successful 
 8) Proceed to the Dashboards section and add kubeArmor as a datasource. Initially, it will show as having no data.
 9) To populate data, execute some kubectl exec commands and observe the node graph. You can utilize the namespace and labels filters to refine your view.
 
+for deploying and testing manifests in tests directory can be used.
 
