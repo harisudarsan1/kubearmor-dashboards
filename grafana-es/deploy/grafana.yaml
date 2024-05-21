@@ -64,11 +64,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-pv
-            - mountPath: /var/lib/grafana/plugins/accuknox-kubearmor-datasource
+            - mountPath: /var/lib/grafana/plugins/accuknox-kubearmorplugin-datasource
               name: plugin-volume
             - mountPath: /etc/grafana/provisioning
               name: provisioning-volume
-            - mountPath: /root/accuknox-kubearmor-datasource
+            - mountPath: /root/accuknox-kubearmorplugin-datasource
               name: source-code
           env:
             - name: NODE_ENV
@@ -80,20 +80,20 @@ spec:
             - name: GF_DATAPROXY_LOGGING
               value: "1"
             - name: GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS
-              value: "accuknox-kubearmor-datasource"
+              value: "accuknox-kubearmorplugin-datasource"
       volumes:
         - name: grafana-pv
           persistentVolumeClaim:
             claimName: grafana-pvc
         - name: plugin-volume
           hostPath:
-            path: your_path_to_the_plugin/dist
+            path: /home/hari/opensource/grafana_Kubearmor/accuknox-kubearmorplugin-datasource/dist
         - name: provisioning-volume
           hostPath:
-            path: your_path_to_the_plugin/provisioning
+            path: /home/hari/opensource/grafana_Kubearmor/accuknox-kubearmorplugin-datasource/provisioning
         - name: source-code
           hostPath:
-            path: your_path_to_the_plugin
+            path: /home/hari/opensource/grafana_Kubearmor/accuknox-kubearmorplugin-datasource
 ---
 apiVersion: v1
 kind: Service

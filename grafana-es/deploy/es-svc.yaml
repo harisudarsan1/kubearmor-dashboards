@@ -5,14 +5,13 @@ metadata:
   namespace: kubearmor
   labels:
     app: elasticsearch
-    namespace: kube-system
+    namespace: default
 spec:
   selector:
     app: elasticsearch
   clusterIP: None
   ports:
-    - port: 9200
-      name: rest
-    - port: 9300
-      name: inter-node
-
+  - port: 9200
+    name: rest
+  - port: 9300
+    name: inter-node
