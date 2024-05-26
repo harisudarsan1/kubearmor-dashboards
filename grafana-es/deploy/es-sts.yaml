@@ -5,7 +5,7 @@ metadata:
   namespace: kubearmor
 spec:
   serviceName: elasticsearch
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: elasticsearch
@@ -35,14 +35,16 @@ spec:
         env:
         - name: cluster.name
           value: k8s-logs
+        - name: discovery.type
+          value: single-node
         - name: node.name
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: discovery.seed_hosts
-          value: "es-cluster-0.elasticsearch,es-cluster-1.elasticsearch,es-cluster-2.elasticsearch"
-        - name: cluster.initial_master_nodes
-          value: "es-cluster-0,es-cluster-1,es-cluster-2"
+        # - name: discovery.seed_hosts
+        #   value: "es-cluster-0.elasticsearch,es-cluster-1.elasticsearch,es-cluster-2.elasticsearch"
+        # - name: cluster.initial_master_nodes
+        #   value: "es-cluster-0,es-cluster-1,es-cluster-2"
         - name: ES_JAVA_OPTS
           value: "-Xms512m -Xmx512m"
       initContainers:
