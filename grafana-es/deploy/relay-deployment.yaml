@@ -10,38 +10,34 @@ spec:
   - port: 32767
     protocol: TCP
 ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: kubearmor-relay
-#   namespace: kubearmor
-# ---
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRole
-# metadata:
-#   name: kubearmor-relay-clusterrole
-# rules:
-# - apiGroups:
-#   - ""
-#   resources:
-#   - pods
-#   verbs:
-#   - get
-#   - list
-# ---
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: ClusterRoleBinding
-# metadata:
-#   name: kubearmor-relay-clusterrolebinding
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: ClusterRole
-#   name: kubearmor-relay-clusterrole
-# subjects:
-# - kind: ServiceAccount
-#   name: kubearmor-relay
-#   namespace: kubearmor
-# ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubearmor-relay
+  namespace: kubearmor
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubearmor-relay-role
+rules:
+- apiGroups: [""]
+  resources: ["services", "pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubearmor-relay-binding
+subjects:
+- kind: ServiceAccount
+  name: kubearmor-relay
+  namespace: kubearmor
+roleRef:
+  kind: ClusterRole
+  name: kubearmor-relay-role
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
