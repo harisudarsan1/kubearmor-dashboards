@@ -60,7 +60,7 @@ spec:
       serviceAccountName: kubearmor-relay
       containers:
       - name: kubearmor-relay-server
-        image: harisudarsan/kubearmor-relay-server:latest
+        image: harisudarsan/kubearmor-relay-server:1.0.4
         env:
           - name: ENABLE_DASHBOARDS
             value: "true"
